@@ -9,6 +9,6 @@ import Foundation
 
 enum ExpressCompany:String, CaseIterable {
     case PostJapan = "日本郵便"
-    case Yamato = "ヤマト"
-    case Sagawa = "佐川"
+    case Yamato = "ヤマト運輸"
+    case Sagawa = "佐川急便"
 }

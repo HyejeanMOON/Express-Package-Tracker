@@ -10,21 +10,23 @@ import SwiftUI
 struct ExpressCompanyListView: View {
     
     var body: some View {
-        List{
-            Section(header:Text("郵送会社")){
-                ForEach(ExpressCompany.allCases, id:\.self){ comapny in
-                    Label(comapny.rawValue,systemImage: "house")
-                    
+        NavigationView{
+            List{
+                Section(header:Text("会社")){
+                    ForEach(ExpressCompany.allCases, id:\.self){ comapny in
+                        NavigationLink(destination: ExpressPackageDetailView()) {
+                            Label(comapny.rawValue,systemImage: "house")
+                        }
+                    }
                 }
-            }.padding()
-            
-            Section(header: Text("検索履歴")){
-                Label("検索履歴なし",systemImage: "magnifyingglass")
-            }.padding()
+                
+                Section(header: Text("検索履歴")){
+                    Label("検索履歴なし",systemImage: "magnifyingglass")
+                }
+            }
+            .navigationTitle(Text("Package Tracker"))
+            .navigationBarHidden(false)
         }
-        .navigationTitle("Epxress Package Tracker")
-        .navigationBarHidden(false)
-        
     }
 }
 
