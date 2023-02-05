@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ExpressPackageDetailView: View {
+    @State var expressCompany:ExpressCompany
     var body: some View {
         List{
             Text("日本郵便")
         }
-        .navigationTitle("日本郵便")
-        .navigationBarHidden(false)
+        .navigationTitle(Text(expressCompany.rawValue))
     }
 }
 
 struct ExpressPackageDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpressPackageDetailView()
+        ExpressPackageDetailView(expressCompany: .PostJapan)
     }
 }
