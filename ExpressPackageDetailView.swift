@@ -13,6 +13,7 @@ struct ExpressPackageDetailView: View {
     @State private var currentId: String = ""
     @FocusState private var focusState: Bool
     @State var isRegexExpressIncorrect: Bool = false
+    @State var isWebViewShowing: Bool = false
     
     var body: some View {
         VStack{
@@ -42,6 +43,7 @@ struct ExpressPackageDetailView: View {
         .toolbar {
             Button {
                 // TODO
+                isWebViewShowing = true
             } label: {
                 Label("",systemImage: "magnifyingglass")
             }
@@ -53,6 +55,9 @@ struct ExpressPackageDetailView: View {
             }
         } message: {
             Text("正しい追跡IDを入力してください！")
+        }
+        .sheet(isPresented: $isWebViewShowing) {
+            WebView(url:URL(string:"")!)
         }
     }
     
