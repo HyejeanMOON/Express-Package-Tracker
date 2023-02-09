@@ -12,6 +12,7 @@ struct ExpressPackageDetailView: View {
     @State var trackerIdList: [String] = []
     @State private var currentId: String = ""
     @FocusState private var focusState: Bool
+    @State var isRegexExpressIncorrect: Bool = false
     
     var body: some View {
         VStack{
@@ -20,8 +21,8 @@ struct ExpressPackageDetailView: View {
                     TextField("追跡IDを入力してください",text: $currentId)
                         .focused($focusState)
                     Button {
-                        trackerIdList.append(currentId)
-                        currentId = ""
+                        addPackageIdToPackageIdList(id: currentId)
+                        self.currentId = ""
                     } label: {
                         Text("追加")
                     }
@@ -42,9 +43,41 @@ struct ExpressPackageDetailView: View {
             Button {
                 // TODO
             } label: {
-                Image(systemName: "magnifyingglass")
+                Label("",systemImage: "magnifyingglass")
             }
 
+        }
+        .alert("エラー", isPresented: $isRegexExpressIncorrect) {
+            Button("了解"){
+                self.isRegexExpressIncorrect = false
+            }
+        } message: {
+            Text("正しい追跡IDを入力してください！")
+        }
+    }
+    
+    func addPackageIdToPackageIdList(id:String){
+        switch expressCompany {
+        case .PostJapan:
+            let domesticPattern = "[0-9]{11}"
+            let internationalPattern = "[A-Z]{2}[0-9]{9}JP"
+            var domesticPatternResult:[String] = []
+            var internationalPatternResult:[String] = []
+            self.isRegexExpressIncorrect = !(id.pregMatche(pattern: domesticPattern, matches: &domesticPatternResult) || id.pregMatche(pattern: internationalPattern, matches: &internationalPatternResult))
+        case .Yamato:
+            let yamatoPattern1 = "[0-9]{11}"
+            let yamatoPattern2 = "[0-9]{12}"
+            var yamatoPattern1Result:[String] = []
+            var yamatoPattern2Result:[String] = []
+            self.isRegexExpressIncorrect = !(id.pregMatche(pattern: yamatoPattern1, matches: &yamatoPattern1Result) || id.pregMatche(pattern: yamatoPattern2, matches: &yamatoPattern2Result))
+        case .Sagawa:
+            let sagawaPattern = "[0-9]{12}"
+            var sagawaPatternResult:[String] = []
+            self.isRegexExpressIncorrect = !id.pregMatche(pattern: sagawaPattern, matches: &sagawaPatternResult)
+        }
+        
+        if(!isRegexExpressIncorrect){
+            trackerIdList.append(id)
         }
     }
 }
